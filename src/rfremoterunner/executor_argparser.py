@@ -1,7 +1,7 @@
 import argparse
 import os
 
-ROBOT_RUN_ARGS = ['loglevel', 'include', 'test', 'exclude', 'suite', 'extension']
+ROBOT_RUN_ARGS = ['loglevel', 'include', 'test', 'exclude', 'suite', 'extension', 'listener']
 
 
 class ExecutorArgumentParser:
@@ -51,6 +51,8 @@ class ExecutorArgumentParser:
         # Although these arguments are ones that robot accepts, they won't be passed into the remote robot execution.
         # The output artifacts will be placed in the workspace directory on the remote host and when pulled back they
         # are saved to the local machine as per configured by the arguments below
+        parser.add_argument('--listener',
+                            help='Class or module for monitoring test execution. Gets notifications e.g. when tests start and end. Arguments to the listener class can be given after the name using a colon or a semicolon as a separator. Examples: --listener MyListener --listener path/to/Listener.py:arg1:arg2')
         parser.add_argument('-d', '--outputdir',
                             help='Where to create the output files on this machine once they\'ve been retrieved. The '
                                  'default is the directory that this script is run from',

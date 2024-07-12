@@ -1,10 +1,63 @@
 [build-system]
-requires = [
-  "setuptools >= 42",
-  "wheel",
-  "setuptools-scm[toml] >= 3.4",
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+package-dir = "src"
+
+[tool.pdm.version]
+source = "scm"
+tag_filter = "v*"
+tag_regex = '^v(?:\D*)?(?P<version>([1-9][0-9]*!)?(0|[1-9][0-9]*)(\.(0|[1-9][0-9]*))*((a|b|c|rc)(0|[1-9][0-9]*))?(\.post(0|[1-9][0-9]*))?(\.dev(0|[1-9][0-9]*))?$)$'
+
+[tool.pdm.module]
+name = "rfremoterunner"
+
+[project]
+name = "robotframework-remoterunner"
+dynamic = ["version"]
+description = "A library that provides the ability to execute RobotFramework test suites on a remote host."
+authors = [
+    {name = "Chris Brookes", email = "chris-brookes93@outlook.com"},
+]
+dependencies = [
+    "robotframework >= 3.1.1",
+    "six",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["robotframework automation testautomation rpa testing acceptancetesting atdd bdd"]
+classifiers = [
+    "Development Status :: 6 - Mature",
+    "Framework :: Robot Framework",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Testing",
 ]
 
-build-backend = "setuptools.build_meta"
+[project.urls]
+Homepage = "https://github.com/chrisBrookes93/robotframework-remoterunner"
+"Issue Tracker" = "https://github.com/chrisBrookes93/robotframework-remoterunner/issues"
+Repository = "https://github.com/chrisBrookes93/robotframework-remoterunner"
 
-[tool.setuptools_scm]
+[project.optional-dependencies]
+dev = [
+    "mock==3.0.5",
+    "pytest-cov==2.10.1",
+    "pytest==4.6.11",
+    "unittest2==1.1.0",
+]
+codecov = [
+    "pylint==2.6.0",
+]
+
+[project.scripts]
+rfagent = "rfremoterunner.agent:run_agent"
+rfremoterun = "rfremoterunner.executor:run_executor"
+rfslave = "rfremoterunner.agent:run_agent_deprecated"
